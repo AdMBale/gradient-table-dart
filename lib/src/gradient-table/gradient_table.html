@@ -1,0 +1,14 @@
+<table>
+    <tbody>
+        <tr *ngFor="let trItem of array; let y=index">
+            <td *ngFor="let tdItem of array; let x=index" tblGradient xIndex="{{x}}" yIndex="{{y}}" count="{{count}}">
+                <div class="headerContainer">
+                    <div class="header" *ngIf="x == 0 && y != 0">{{y}}
+                    </div>
+                    <div class="header" *ngIf="y == 0 && x != 0">{{getHeader(x)}}
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>    
+</table>
