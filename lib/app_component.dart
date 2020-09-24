@@ -23,17 +23,26 @@ class AppComponent {
 
   AppComponent(this._router);
 
+  ///Validates the input field value by button click event
+  ///and navigate to table creation accordingly
   onButtonClick() {
     if (this.columnCount == null || this.columnCount == '') {
       window.alert('Please, enter a value!');
       return;
     }
-    int count = int.tryParse(this.columnCount);
-    if (count == null)
+    var count = int.tryParse(this.columnCount);
+    if (count == null) {
       window.alert('The number must be an integer!');
-    else if (count < 2 || count > 100)
+    } else if (count < 2 || count > 100) {
       window.alert('The number must be between 2 and 100!');
-    else
+    } else
       this._router.navigate('gradient/' + columnCount);
+  }
+
+  ///On enter key calls the onButtonClick function to navigate
+  onKeyUp(event) {
+    if (event.keyCode == 13) {
+      this.onButtonClick();
+    }
   }
 }

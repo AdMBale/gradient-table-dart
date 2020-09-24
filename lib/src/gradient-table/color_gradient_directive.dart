@@ -2,36 +2,45 @@ import 'dart:html';
 import 'package:angular/angular.dart';
 import 'gradient_service.dart';
 
-@Directive(selector: '[tblGradient]', providers: [GradientService])
+///Directive hosts by the table <td> tag to manipulate its attributes
+@Directive(selector: '[gradient]', providers: [GradientService])
 class ColorGradientDirective implements AfterChanges, OnInit {
+  final headerBackgroundColor = 'lightgrey';
   GradientService _gradientService;
   HtmlElement actEl;
   Element el;
-  int xCoord;
-  int yCoord;
-  ColorGradientDirective(this.el, this.actEl, this._gradientService) {}
+  var xCoord;
+  var yCoord;
 
+  ColorGradientDirective(this.el, this.actEl, this._gradientService);
+
+  ///Horizontal coordinate value
   @Input("xIndex")
-  String X;
-  @Input("yIndex")
-  String Y;
-  @Input("count")
-  String count;
+  var X;
 
+  ///Vertical coordinate value
+  @Input("yIndex")
+  var Y;
+
+  ///Column count
+  @Input("count")
+  var count;
+
+  ///Sets the <td> tag's width and makes it square
   ngAfterChanges() {
-    // this.el.style.height = this.actEl.clientWidth.toString() + 'px';
-    int c = int.parse(this.count) + 1;
-    var percent = (100 / c).toString() + '%';
+    var activeCoulumnCount = int.parse(this.count) + 1;
+    var percent = (100 / activeCoulumnCount).toString() + '%';
     this.el.style.width = percent;
     this.el.style.height = '0';
     this.el.style.paddingBottom = percent;
   }
 
+  ///Sets the <td> tag's background color according to the coordinates
   ngOnInit() {
     xCoord = int.parse(this.X);
     yCoord = int.parse(this.Y);
     this.el.style.backgroundColor = xCoord == 0 || yCoord == 0
-        ? this.el.style.backgroundColor = 'lightgrey'
+        ? this.el.style.backgroundColor = this.headerBackgroundColor
         : this
             ._gradientService
             .setGradientColor(xCoord - 1, yCoord - 1, int.parse(this.count));
